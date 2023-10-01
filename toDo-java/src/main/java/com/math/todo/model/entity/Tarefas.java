@@ -16,13 +16,17 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import com.math.todo.model.enums.StatusTarefas;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tarefas", schema = "todo")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tarefas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +47,6 @@ public class Tarefas {
     private String observacoes;
 
     @Column(name = "data_criacao")
-    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate data_criacao;
 
     @Column(name = "data_atualizacao")

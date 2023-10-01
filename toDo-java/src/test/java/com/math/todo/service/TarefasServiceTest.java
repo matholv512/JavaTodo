@@ -19,6 +19,7 @@ import com.math.todo.service.impl.TarefasServiceImpl;
 
 
 @ExtendWith(SpringExtension.class)
+//@ActiveProfiles("test")
 public class TarefasServiceTest {
 	@SpyBean
 	TarefasServiceImpl service;
@@ -32,7 +33,7 @@ public class TarefasServiceTest {
 		Mockito.when(repository.existsById(Mockito.anyLong())).thenReturn(false);
 		
 		//acao
-		service.validarId(1l);
+		service.VerificaAExistenciaDaTarefa(1l);
 	}
 	
 	@Test
@@ -48,7 +49,7 @@ public class TarefasServiceTest {
 		Mockito.when(repository.findById(id)).thenReturn(Optional.of(tarefas));
 		
 		//ação
-		Tarefas result = service.verificar(id);
+		Tarefas result = service.VerificaAExistenciaDaTarefa(id);
 		
 		//verificação
 		org.assertj.core.api.Assertions.assertThat(result).isNotNull();
@@ -63,7 +64,7 @@ public class TarefasServiceTest {
 		//ação
 		Throwable exception =
 				org.assertj.core.api.Assertions.catchThrowable( 
-						() -> service.validarId(id));
+						() -> service.VerificaAExistenciaDaTarefa(id));
 		
 		//verificação
 		org.assertj.core.api.Assertions.assertThat(exception)

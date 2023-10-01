@@ -1,6 +1,5 @@
 package com.math.todo.model.repository;
 
-import java.util.Optional;
 import java.time.LocalDate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import com.math.todo.model.enums.StatusTarefas;
 
 @ExtendWith( SpringExtension.class )
 @DataJpaTest
+//@ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class TarefasRepositoryTests {
 	@Autowired
@@ -29,15 +29,11 @@ public class TarefasRepositoryTests {
 	public void devePersistirATarefaNaBaseDeDados() {
 		//cenário
 		Tarefas tarefa = criarTarefa();
-		System.out.println("CONSOLE1: " + criarTarefa());
-		System.out.println("CONSOLE2: " +tarefa);
 		//ação
 		Tarefas tarefaSalva = repository.save(tarefa);
-		System.out.println("CONSOLE3: " +tarefaSalva);
 				
 		//verificação
 		Assertions.assertThat(tarefaSalva.getId()).isNotNull();
-		System.out.println("CONSOLE4: " + + tarefaSalva.getId());
 	}
 	
 	@Test
@@ -45,7 +41,6 @@ public class TarefasRepositoryTests {
 		//cenário
         Tarefas tarefa = criarTarefa();
         Tarefas tarefaSalva = repository.save(tarefa);
-        System.out.println("CONSOLE5: " + tarefaSalva);
 
         tarefaSalva.setNome("Título 2");
         tarefaSalva.setDescricao("Descrição 2");
@@ -55,7 +50,6 @@ public class TarefasRepositoryTests {
 
         //ação
         Tarefas tarefaAtualizada = repository.save(tarefaSalva);
-        System.out.println("CONSOLE6: " + tarefaAtualizada);
         //verificação
         Assertions.assertThat(tarefaAtualizada.getId()).isEqualTo(tarefaSalva.getId());
         Assertions.assertThat(tarefaAtualizada.getNome()).isEqualTo("Título 2");
@@ -106,7 +100,7 @@ public class TarefasRepositoryTests {
 		//cenário
 		
 		//ação
-		boolean result = repository.existsById(1);
+		boolean result = repository.existsById(1l);
 		
 		//verificação
 		Assertions.assertThat(result).isFalse();
@@ -115,10 +109,11 @@ public class TarefasRepositoryTests {
 	
 	public static Tarefas criarTarefa() {
 		return Tarefas.builder()
-			    .nome("Imagine o título da tarefa")
-			    .descricao("Mussum Ipsum, cacilds vidis litro abertis. Eu nunca mais boto a boca num copo de cachaça, agora eu só uso canudis! Leite de capivaris, leite de mula manquis sem cabeça.")
-			    .status(StatusTarefas.CONCLUIDO)
-			    .observacoes("Concluir até a data 25/05/1999")
-			    .build();
+                .nome("Título da tarefa")
+                .descricao("Mussum Ipsum, cacilds vidis litro abertis. Eu nunca mais boto a boca num copo de cachaça, agora eu só uso canudis! Leite de capivaris, leite de mula manquis sem cabeça.")
+                .status(StatusTarefas.CONCLUIDO)
+                .observacoes("Concluir até a data 25/05/2024")
+                .data_criacao(LocalDate.now())
+                .build();
 	}
 }
